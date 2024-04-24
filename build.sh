@@ -173,37 +173,6 @@ init_packages() {
 	"$PROJ_DIR/scripts/create_acl_for_luci.sh" -c
 }
 
-# 这里将会读取项目根目录下的额外文件和补丁文件, 并将修改合并到源码上
-patch_source() {
-	# patch openwrt
-	cd "$PROJ_DIR/openwrt"
-	echo "开始修补 OpenWrt 源码"
-	echo "当前目录: ""$(pwd)"
-	if [ -d "$PROJ_DIR/trunk/files" ]; then
-		cp -lfr "$PROJ_DIR/trunk/files"/* ./
-	fi
-	# 因为使用了软链接, 尽量使用相对目录
-	apply_patches ../trunk
-	echo "OpenWrt 源码修补完毕"
-
-	# patch feeds
-	echo "Patching OpenWrt feeds..."
-	echo "Current directory: ""$(pwd)"
-	cd "$PROJ_DIR/openwrt"
-	local feed
-	while IFS= read -r feed; do
-		if [ -d "$PROJ_DIR/$feed/files" ]; then
-			cd "$PROJ_DIR/openwrt/feeds/$feed"
-			cp -lfr "$PROJ_DIR/$feed/files"/* ./
-		fi
-		if [ -d "$PROJ_DIR/$feed/patches" ]; then
-			cd "$PROJ_DIR/openwrt/feeds/$feed"
-			# 因为使用了软链接, 尽量使用相对目录
-			apply_patches ../../../"$feed"
-		fi
-	done <<<"$(awk '/^src-git/ { print $2 }' ./feeds.conf.default)"
-}
-
 # 这里将安装 feeds 中所有的软件包, 并读取 config.seed 来生成默认配置文件
 prepare_build() {
 	# install packages
