@@ -10,7 +10,7 @@ set -euo pipefail
 PROJ_DIR=$(pwd)
 readonly PROJ_DIR
 
-VERSION=openwrt-22.03
+VERSION=openwrt-23.05
 MANUAL=false
 ORIGIN=origin
 BUILD=false
@@ -143,9 +143,9 @@ init_packages() {
 	rm -rf OpenClash
 	git clone --depth 1 -b master https://github.com/vernesong/OpenClash.git
 	rm -rf immortalwrt-luci
-	git clone --depth 1 -b openwrt-21.02 https://github.com/immortalwrt/luci.git immortalwrt-luci
+	git clone --depth 1 -b openwrt-23.05 https://github.com/immortalwrt/luci.git immortalwrt-luci
 	rm -rf immortalwrt-packages
-	git clone --depth 1 -b openwrt-21.02 https://github.com/immortalwrt/packages.git immortalwrt-packages
+	git clone --depth 1 -b openwrt-23.05 https://github.com/immortalwrt/packages.git immortalwrt-packages
 
 	# addition packages
 	cd "$PROJ_DIR/openwrt"
@@ -205,6 +205,9 @@ build() {
 
 while getopts 'msrbv:o:t:' opt; do
 	case $opt in
+	t)
+		target=$OPTARG
+		;;
 	m)
 		MANUAL=true
 		AUTO_BUILD=false
@@ -221,9 +224,6 @@ while getopts 'msrbv:o:t:' opt; do
 		BUILD=true
 		AUTO_BUILD=false
 		;;
-	t)
-		target=$OPTARG
-		;;
 	*)
 		echo "usage: $0 [-msrb] [-v version] [-o origin] [-t target]"
 		exit 1
@@ -233,9 +233,7 @@ done
 
 if $MANUAL; then
 	init_trunk
-
 	init_packages
-
 	prepare_build
 fi
 
@@ -245,10 +243,7 @@ fi
 
 if $AUTO_BUILD; then
 	init_trunk
-
 	init_packages
-
 	prepare_build
-
 	build
 fi

@@ -4,17 +4,15 @@
 
 - 刷机最好**不要**保留配置，以免产生未知的问题！
 
-- 后台 IP: 192.168.33.1
+- 后台 IP: 10.33.0.1
 
 ## 自行编译
 
 ### 1.  安装依赖
 
-**注意:** 相比 OpenWrt 的官方版本多了 `quilt` 这个软件包
-
 ```
 sudo apt update
-sudo apt install build-essential ccache ecj fastjar file g++ gawk gettext git java-propose-classpath libelf-dev libncurses5-dev libncursesw5-dev libssl-dev python python2.7-dev python3 unzip wget python-distutils-extra python3-setuptools python3-dev quilt rsync subversion swig time xsltproc zlib1g-dev 
+sudo apt install build-essential clang flex bison g++ gawk gcc-multilib g++-multilib gettext git libelf-dev libncurses-dev libssl-dev python3-distutils rsync unzip zlib1g-dev file wget
 ```
 
 ### 2. 固件编译
@@ -59,19 +57,5 @@ cd ../
 不同版本补丁不一定兼容，可能初始化失败
 
 ```
-./build.sh -v openwrt-22.03
-```
-
-### 刷新补丁
-
-因为使用 `./script/feeds update -i` 可能会把 quilt 储存在 .pc 文件夹下的临时文件识别成软件包，因此在使用 `./build.sh` 初始化源码后会把 quilt 产生的临时文件夹移除，需要使用 `-s` 参数重新装载，如果已经使用过一次 `-s` 参数则无需再次添加
-
-```
-./build.sh -r [-s]
-```
-
-通过配合 `-m` 参数可以直接克隆源码并刷新补丁
-
-```
-./build.sh -msr
+./build.sh -v openwrt-23.05
 ```
