@@ -157,10 +157,10 @@ init_packages() {
 	cp -rf "$PROJ_DIR/OpenClash/luci-app-openclash" package/custom
 	download_clash_files package/custom/luci-app-openclash/root "$(get_cpu_arch)"
 	# luci-app-autoreboot
-	cp -rf  "$PROJ_DIR/immortalwrt-luci/applications/luci-app-autoreboot" feeds/luci/applications/luci-app-autoreboot
+	cp -rf "$PROJ_DIR/immortalwrt-luci/applications/luci-app-autoreboot" feeds/luci/applications/luci-app-autoreboot
 	# ddns-scripts
-	cp -rf  "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_aliyun" feeds/packages/net/ddns-scripts_aliyun
-	cp -rf  "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_dnspod" feeds/packages/net/ddns-scripts_dnspod
+	cp -rf "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_aliyun" feeds/packages/net/ddns-scripts_aliyun
+	cp -rf "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_dnspod" feeds/packages/net/ddns-scripts_dnspod
 
 	# 注意下面的脚本不会影响克隆到 feeds 的源码
 	# zh_cn to zh_Hans
