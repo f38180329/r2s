@@ -37,15 +37,15 @@ download_clash_files() {
 	local -r CLASH_HOME=$WORKING_DIR/etc/openclash
 	local -r CPU_ARCH=$2
 
-	local -r GEOIP_DOWNLOAD_URL=https://github.com/alecthw/mmdb_china_ip_list/raw/release/lite/Country.mmdb
-
 	local CLASH_DOWNLOAD_URLS
 	readarray -t CLASH_DOWNLOAD_URLS <<<"$(fetch_clash_download_urls "$CPU_ARCH")"
 	readonly CLASH_DOWNLOAD_URLS
 
 	mkdir -p "$CLASH_HOME"
 	echo "Downloading GeoIP database..."
-	curl -Lf "$GEOIP_DOWNLOAD_URL" -o "$CLASH_HOME"/Country.mmdb
+	curl -Lf "https://github.com/alecthw/mmdb_china_ip_list/raw/release/Country.mmdb" -o "$CLASH_HOME"/Country.mmdb
+	curl -Lf "https://github.com/Loyalsoldier/v2ray-rules-dat/raw/release/geoip.dat" -o "$CLASH_HOME"/GeoIP.dat
+	curl -Lf "https://github.com/Loyalsoldier/v2ray-rules-dat/raw/release/geosite.dat" -o "$CLASH_HOME"/GeoSite.dat
 
 	local -r download_dir=$(mktemp -d)
 	echo "Download ${CLASH_DOWNLOAD_URLS[0]}"
